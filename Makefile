@@ -36,6 +36,7 @@ AUTOV8_DEPOT_TOOLS = build/depot_tools
 AUTOV8_LIB = $(AUTOV8_OUT)/libv8_snapshot.a
 AUTOV8_STATIC_LIBS = -lv8_monolith
 export PATH := $(abspath $(AUTOV8_DEPOT_TOOLS)):$(PATH)
+export DEPOT_TOOLS_UPDATE=0
 
 SHLIB_LINK += -L$(AUTOV8_OUT) -L$(AUTOV8_OUT)/third_party/icu $(AUTOV8_STATIC_LIBS)
 V8_OPTIONS = use_custom_libcxx=false v8_monolithic=true v8_use_external_startup_data=false is_component_build=false is_debug=true
@@ -52,7 +53,7 @@ plv8_config.h plv8.so: v8
 
 $(AUTOV8_DEPOT_TOOLS):
 	mkdir -p build
-	cd build; git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+	cd build; git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git; cd depot_tools; git checkout 3600164d99d9593faa4285cf79ced33caa999c22
 
 ifeq ($(PLATFORM),arm64.release)
 $(AUTOV8_DIR): $(AUTOV8_DEPOT_TOOLS)
